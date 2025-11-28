@@ -34,10 +34,12 @@ if conn:
         """)
         conn.commit()
 
+#приветствие
 @app.route('/')
 def hello():
     return "Hello, Serverless! 🚀\n", 200, {'Content-Type': 'text/plain'}
 
+#функция для метода пост(преобразование входных данных в метаданные)
 @app.route('/echo', methods=['POST'])
 def echo():
     data = request.get_json()
@@ -47,6 +49,7 @@ def echo():
         "length": len(str(data)) if data else 0
     })
 
+#сохранение в бд сообщения
 @app.route('/save', methods=['POST'])
 def save_message():
     if not conn:
@@ -61,6 +64,7 @@ def save_message():
 
     return jsonify({"status": "saved", "message": message})
 
+#вывод всех сообщений из базы данных
 @app.route('/messages')
 def get_messages():
     if not conn:
